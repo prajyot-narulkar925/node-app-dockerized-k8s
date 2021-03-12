@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata: 
+  labels: 
+    type: local
+  name: mongo-pvol
+spec: 
+  accessModes: 
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy : Recycle
+  capacity: 
+    storage: 2Gi
+  hostPath: 
+    path: /tmp/db
+  storageClassName: manual
