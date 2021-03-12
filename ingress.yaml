@@ -1,0 +1,52 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: nodeapp-ingress
+#   # namespace:
+#   annotations:
+#     kubernetes.io/ingress.class: "nginx"
+# spec:
+#   rules:
+#     - host: nodeapp.com
+#       http:
+#         paths:
+#           - path: /
+#             backend:
+#               serviceName: nodeapp-service
+#               servicePort: 8080
+
+
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: nodeapp-ingress
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+#     kubernetes.io/ingress.class: nginx
+# spec:
+#   rules:
+#   - host: nodeapp.com
+#   - http:
+#       paths:
+#       - path: /api/todos
+#         # pathType: Prefix
+#         backend:
+#           serviceName: nodeapp-service
+#           servicePort: 8080
+
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nodeapp--ingress
+spec:
+  rules:
+  - host: nodeapp.com
+    http:
+      paths:
+      - path: /api/todos
+        pathType: Prefix
+        backend:
+          serviceName: nodeapp-service
+          servicePort: 8080

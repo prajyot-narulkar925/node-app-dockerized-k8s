@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp-dep
+  labels:
+    app: nodeapp-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodeapp-dep
+  template:
+    metadata:
+      labels:
+        app: nodeapp-dep
+    spec:
+      containers:
+        - name: nodeapp-dep
+          image: prajyot25/node-app:1.0.3
+          ports:
+            - containerPort: 8080
+          env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: mongo-root-username
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: mongo-root-password
+          - name: mongodb_database_url
+            valueFrom:
+              configMapKeyRef:
+                name: mongodb-configmap
+                key: database_url
+          imagePullPolicy: Always
+      #     volumeMounts:
+      #       - name: storage
+      #         mountPath: /data/db
+      # volumes:
+      #   - name: storage
+      #     persistentVolumeClaim:
+      #       claimName: nodeapp-pcvol
